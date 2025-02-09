@@ -18,8 +18,7 @@ You will find a structured documentation file `stdlib.md` detailing each standar
 
 ##  Usage  
 
-This documentation is intended for reading and reference. You can browse the official MeTTa GitHub repository:  
-🔗 [MeTTa Standard Library on GitHub](https://github.com/trueagi-io/hyperon-experimental)  
+This documentation is intended for reading and reference. You can browse the official MeTTa-lang GitHub repo https://github.com/trueagi-io/hyperon-experimental or https://metta-lang.dev/
 Here, you can learn about specific functions or get a general understanding of the MeTTa standard library.  
 
 ## 🤝 Contributing  
