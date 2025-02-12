@@ -17,13 +17,6 @@ This document details the built-in functions and atoms available in the MeTTa st
 11. [Quoting](#quoting)
 12. [Set Operations](#set-operations)
 13. [Documentation](#documentation)
-14. [Utility](#utility)
-15. [I/O](#io)
-16. [Metta Language and Modules](#metta-language-and-modules)
-17. [State Management](#state-management)
-18. [Matching and Unification](#matching-and-unification)
-19. [Numeric Operations](#numeric-operations)
-20. [Other Operations](#other-operations)
 
 ---
 
