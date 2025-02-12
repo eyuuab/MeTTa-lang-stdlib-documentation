@@ -6,7 +6,7 @@ This repository contains the documentation for the standard library of the MeTTa
 
 This documentation provides a comprehensive overview of the built-in functions and atoms available in MeTTa's standard library. It serves as a helpful resource for MeTTa developers to understand and utilize the core functionalities of the language.  
 
-##  Contents  
+## Content   
 
 You will find a structured documentation file `stdlib.md` detailing each standard library component with:  
 
@@ -16,7 +16,7 @@ You will find a structured documentation file `stdlib.md` detailing each standar
 - **Examples** (where applicable)  
 - **Type signatures** (where available)  
 
-##  Usage  
+## usage
 
 This documentation is intended for reading and reference. You can browse the official MeTTa-lang GitHub repo https://github.com/trueagi-io/hyperon-experimental or https://metta-lang.dev/
 Here, you can learn about specific functions or get a general understanding of the MeTTa standard library.  
