@@ -26,3 +26,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_static_path = ['_static']
+html_search_language = 'en'
+html_favicon = "_static/favicon.ico"
+html_logo = "_static/logo.png"
+html_css_files = ["custom.css"]
+
