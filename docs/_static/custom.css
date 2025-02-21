@@ -1,0 +1,5 @@
+.wy-side-nav-search .wy-dropdown > a img, 
+.wy-side-nav-search > a img {
+    max-height: 100px;  /* Adjust height as needed */
+    width: auto;  /* Keep aspect ratio */
+}
