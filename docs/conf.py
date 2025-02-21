@@ -30,4 +30,5 @@ html_search_language = 'en'
 html_favicon = "_static/favicon.ico"
 html_logo = "_static/logo.png"
 html_css_files = ["custom.css"]
+templates_path = ["_templates"]
 
