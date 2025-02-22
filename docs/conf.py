@@ -37,6 +37,14 @@ ogp_description_length = 200
 ogp_type = "website"
 ogp_site_name = "MeTTa Standard Library Documentation"
 
+# -- GitHub pages link --------------------------------------------------
+html_context = {
+    'display_github': True,
+    'github_user': 'eyuuab',  
+    'github_repo': 'MeTTa-0.2.2-documentation-stdlib',  
+    'github_version': 'main',  
+    'conf_py_path': '/docs/', 
+}
 
 html_js_files = [
     "js/jquery.min.js",
