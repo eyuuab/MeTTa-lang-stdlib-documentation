@@ -13,7 +13,10 @@ copyright = '2025, Eyobed A.'
 author = 'Eyobed A.'
 release = '0.1'
 
-extensions = ["myst_parser"]
+extensions = [
+    "myst_parser",
+    "sphinxext.opengraph", # Add sphinxext-opengraph extension
+]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -26,18 +29,18 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-# Open Graph metadata
-html_context = {
-    'og_title': 'MeTTa Standard Library Documentation',
-    'og_type': 'website',
-    'og_url': 'https://metta-stdlib.readthedocs.io/',
-    'og_image': 'https://raw.githubusercontent.com/eyuuab/MeTTa-0.2.2-documentation-stdlib/main/docs/_static/MeTTa-lang.png',
-    'og_description': 'Official documentation for the MeTTa 0.2.2 Standard Library',
-}
+# -- Options for OpenGraph extension ---------------------------------------
+ogp_site_url = 'https://metta-stdlib.readthedocs.io/en/latest/'
+ogp_image = 'https://raw.githubusercontent.com/eyuuab/MeTTa-0.2.2-documentation-stdlib/main/docs/_static/MeTTa-lang.png' 
+ogp_image_alt = "MeTTa Language Logo"
+ogp_description_length = 200
+ogp_type = "website"
+ogp_site_name = "MeTTa Standard Library Documentation"
+
 
 html_js_files = [
-    "js/jquery.min.js",  
-    "searchtools.js"     
+    "js/jquery.min.js",
+    "searchtools.js"
 ]
 
 
@@ -49,5 +52,3 @@ html_logo = "_static/logo.png"
 
 html_css_files = ["custom.css"]
 templates_path = ["_templates"]
-
-
