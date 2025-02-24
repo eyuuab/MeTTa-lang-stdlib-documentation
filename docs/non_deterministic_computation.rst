@@ -7,9 +7,17 @@ Non-deterministic Computation
 **Description:** Evaluates a MeTTa operation and returns an expression containing all alternative evaluations in the form ``(Atom Bindings)``.
 
 **Parameters:**
-    - Atom: The MeTTa operation to evaluate.
+    - Atom: The MeTTa operation to be evaluated.
 
 **Return:** An expression of alternative evaluations with bindings.
+
+**Example:**
+
+.. code-block:: metta
+
+    (= (bin) 0)
+    (= (bin) 1)
+    !(collapse-bind (bin)) ; Returns (0 { }), (1 { }) nondeterministically
 
 ``superpose-bind``
 ----------------

@@ -158,7 +158,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Evaluates an atom, binds the result to a variable, and then evaluates another atom containing the variable.
 *   **Parameters:**
-    *   Atom: The atom to evaluate initially.
+    *   Atom: The atom to be evaluated initially.
     *   Variable: The variable to bind the result to.
     *   Template: The atom to evaluate after binding.
 *   **Return:** The result of evaluating the template.
@@ -587,7 +587,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Evaluates a MeTTa operation and returns an expression containing all alternative evaluations in the form `(Atom Bindings)`.
 *   **Parameters:**
-    *   Atom: The MeTTa operation to evaluate.
+    *   Atom: The MeTTa operation to be evaluated.
 *   **Return:** An expression of alternative evaluations with bindings.
 *   **Example:**
 

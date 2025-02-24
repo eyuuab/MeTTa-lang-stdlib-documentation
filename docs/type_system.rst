@@ -7,7 +7,7 @@ Type System
 **Description:** Checks if a type is a function type.
 
 **Parameters:**
-    - Type: The type atom to check.
+    - Type: The type atom to be checked.
 
 **Return:** ``True`` if the type is a function type, ``False`` otherwise.
 
@@ -29,6 +29,14 @@ Type System
     - Space: The atomspace to use as context.
 
 **Return:** The atom if casting is successful, or an ``Error`` atom if not.
+
+**Example:**
+
+.. code-block:: metta
+
+    (: type1 Type)
+    !(type-cast A type1 &self) ; A
+    !(type-cast 1 type1 &self) ; Error 1 BasType
 
 ``match-types``
 ---------------
@@ -77,3 +85,12 @@ Type System
     - Type: Second type.
 
 **Return:** True or False
+
+**Example:**
+
+.. code-block:: metta
+
+    !(match-type-or True Number Number) ; Returns True
+    !(match-type-or False Number Number) ; Returns True
+    !(match-type-or True Number Bool) ; Returns True
+    !(match-type-or False Number Bool) ; Returns False

@@ -7,7 +7,7 @@ Equality and Reduction
 **Description:** Defines a reduction rule for expressions. The left-hand side is a pattern, and the right-hand side is the result of the reduction.
 
 **Parameters:**
-    - Pattern: The expression to match.
+    - Pattern: The expression to be matched.
     - Result: The expression to replace the matched pattern with.
 
 **Return:** Not reduced itself unless custom equalities over equalities are added
