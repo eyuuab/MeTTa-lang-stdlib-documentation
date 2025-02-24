@@ -26,13 +26,13 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Defines a reduction rule for expressions. The left-hand side is a pattern, and the right-hand side is the result of the reduction.
 *   **Parameters:**
-    *   Pattern: The expression to match.
+    *   Pattern: The expression to be matched.
     *   Result: The expression to replace the matched pattern with.
 *   **Return:** Not reduced itself unless custom equalities over equalities are added
 *   **Example:**
 
     ```metta
-    (= (add 1 2) 3)
+    (= (add 1 2) 3) | (add 1 2) will be reduced to 3
     ```
 
 ### `id` (Identity)
@@ -73,7 +73,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Checks if an atom is an error. Returns one value if it is, and another if it is not.
 *   **Parameters:**
-    *   Atom: The atom to check.
+    *   Atom: The atom to be checked.
     *   Then: Value to return if the atom is an error.
     *   Else: Value to return otherwise.
 *   **Return:** Either the `Then` or `Else` argument.
@@ -85,11 +85,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 ### `return-on-error`
 
-*   **Description:** Returns the first argument if it is an Empty or an error. Returns the second argument otherwise.
+*   **Description:** Returns the first argument if the argument is an Empty or an error. Returns the second argument otherwise.
 *   **Parameters:**
-    *   Atom: Atom to check.
+    *   Atom: Atom to be checked.
     *   Then: Atom for further evaluation if first argumet is not an Error or Empty.
-*   **Return:** Return previous result if it is an error or Empty or continue evaluation
+*   **Return:** Return previous result if it is an error or Empty. If not it continues the evaluation
 *   **Example:**
 
     ```metta
@@ -105,12 +105,12 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Returns a value from a `function` expression.
 *   **Parameters:**
-    *   Value: The value to return.
+    *   Value: The value to be returned.
 *   **Return:** The input value.
 *   **Example:**
 
     ```metta
-    (function (return 5)) ; Returns 5
+    ! (function (return 5)) ; Returns 5
     ```
 
 ### `function`
@@ -122,14 +122,14 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(function (+ 1 2)) ; Returns 3 because (+ 1 2) evaluates to 3 which becomes (return 3)
+    !(function (return (+ 1 2))) ; Returns 3 because (+ 1 2) evaluates to 3 which becomes (return 3)
     ```
 
 ### `eval`
 
 *   **Description:** Evaluates an atom, performing one step of reduction.  This can be via equality rules or grounded functions.
 *   **Parameters:**
-    *   Atom: The atom to evaluate.
+    *   Atom: The atom to be evaluated.
 *   **Return:** The result of the evaluation.
 *   **Example:**
 
@@ -143,9 +143,16 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Evaluates an atom within a specific atomspace context.
 *   **Parameters:**
-    *   Atom: The atom to evaluate.
-    *   Space: The atomspace in which to evaluate the atom.
+    *   Atom: The atom to be evaluated.
+    *   Space: The atomspace to evaluate the atom in it's context.
 *   **Return:** The result of the evaluation.
+*   **Example:**
+
+    ```metta
+    (= (double $x) (+ $x $x))
+    !(evalc (double 5) &self) ; Returns (+ 5 5) self being the working space
+    !(evalc (+ 5 5) &self) ; Returns 10
+    ```
 
 ### `chain`
 
@@ -165,10 +172,10 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Attempts to unify two atoms. If successful, returns one value; otherwise, returns another.
 *   **Parameters:**
-    *   Atom1: The first atom to unify.
-    *   Atom2: The second atom to unify.
-    *   Then: The value to return if unification succeeds.
-    *   Else: The value to return if unification fails.
+    *   Atom1: The first atom to be unified.
+    *   Atom2: The second atom to unified.
+    *   Then: The value to be returned if unification succeeds.
+    *   Else: The value to be returned if unification fails.
 *   **Return:** Either the `Then` or `Else` argument.
 *   **Example:**
 
@@ -253,9 +260,9 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Constructs an expression (list) by adding an atom to the head of another expression.
 *   **Parameters:**
-    *   Head: The atom to add to the beginning.
-    *   Tail: The expression to add the atom to.
-*   **Return:** A new expression.
+    *   Head: The atom to be added to the beginning.
+    *   Tail: The expression to be added the atom to.
+*   **Return:** A new expression formed from the head and the tail.
 *   **Example:**
 
     ```metta
@@ -266,7 +273,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Deconstructs an expression into its head and tail.
 *   **Parameters:**
-    *   Expression: The expression to deconstruct.
+    *   Expression: The expression to be deconstructed.
 *   **Return:** An expression containing the head and tail: `(Head Tail)`.
 *   **Example:**
 
@@ -302,7 +309,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Returns size of an expression.
 *   **Parameters:**
-    *   Expression: The expression to get size.
+    *   Expression: The expression whose size is to be determined.
 *   **Return:** Size of an expression.
 *   **Example:**
 
@@ -312,11 +319,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 ### `index-atom`
 
-*   **Description:** Returns atom from an expression using index or error if index is out of bounds
+*   **Description:** Returns atom from an expression using index or error if the index is out of bounds
 *   **Parameters:**
     *   Expression: The expression to extract from.
-    *   Index: The index of the atom.
-*   **Return:** Atom from an expression in the place defined by index. Error if index is out of bounds
+    *   Index: The index of the target atom.
+*   **Return:** Atom from an expression in the position defined by index. Error if index is out of bounds
 *   **Example:**
 
     ```metta
@@ -337,7 +344,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(pow-math 2 3) ; Returns 8
+    !(pow-math 2 3) ; Returns 8.0
     ```
 
 ### `sqrt-math`
@@ -349,7 +356,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(sqrt-math 9) ; Returns 3
+    !(sqrt-math 9) ; Returns 3.0
     ```
 
 ### `abs-math`
@@ -374,7 +381,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(log-math 10 100) ; Returns 2
+    !(log-math 10 100) ; Returns 2.0
     ```
 
 ### `trunc-math`
@@ -382,11 +389,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Description:** Returns the integer part of the input value
 *   **Parameters:**
     *   Float: Input float value
-*   **Return:** Integer part of float
+*   **Return:** Integer part of the float
 *   **Example:**
 
     ```metta
-    !(trunc-math 5.6) ; Returns 5
+    !(trunc-math 5.6) ; Returns 5.0
     ```
 
 ### `ceil-math`
@@ -398,7 +405,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(ceil-math 5.2) ; Returns 6
+    !(ceil-math 5.2) ; Returns 6.0
     ```
 
 ### `floor-math`
@@ -410,7 +417,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(floor-math 5.8) ; Returns 5
+    !(floor-math 5.8) ; Returns 5.0
     ```
 
 ### `round-math`
@@ -422,8 +429,8 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(round-math 5.4) ; Returns 5
-    !(round-math 5.6) ; Returns 6
+    !(round-math 5.4) ; Returns 5.0
+    !(round-math 5.6) ; Returns 6.0
     ```
 
 ### `sin-math`
@@ -528,6 +535,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Expression: Expression which contains atoms of Number type
 *   **Return:** Min value in the expression. Error if expression contains non-numeric value or is empty
+*   **Example:**
+
+    ```metta
+    !(min-atom (2 6 7 4 9 3)) ; Returns 2.0
+    ```
 
 ### `max-atom`
 
@@ -535,6 +547,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Expression: Expression which contains atoms of Number type
 *   **Return:** Max value in the expression. Error if expression contains non-numeric value or is empty
+*   **Example:**
+
+    ```metta
+    !(max-atom (2 6 7 4 9 3)) ; Returns 9.0
+    ```
 
 ### `random-int`
 
@@ -542,7 +559,12 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Range start: Range start
     *   Range end: Range end
-*   **Return:** Random int number from defined range
+*   **Return:** Random int number from defined range. Raise Range is empty error if start >= end
+*   **Example:**
+
+    ```metta
+    !(random-int 2 9) ; Returns any int number between 2 to 9
+    ```
 
 ### `random-float`
 
@@ -550,7 +572,12 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Range start: Range start
     *   Range end: Range end
-*   **Return:** Random float number from defined range
+*   **Return:** Random float number from defined range. Raise Range is empty error if start >= end
+*   **Example:**
+
+    ```metta
+    !(random-float 2 9) ; Returns any number in the interval [2, 9)
+    ```
 
 ---
 
@@ -562,6 +589,13 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Atom: The MeTTa operation to evaluate.
 *   **Return:** An expression of alternative evaluations with bindings.
+*   **Example:**
+
+    ```metta
+    (= (bin) 0)
+    (= (bin) 1)
+    !(collapse-bind (bin)) ; Returns (0 { }), (1 { }) nondeterministically
+    ```
 
 ### `superpose-bind`
 
@@ -604,7 +638,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Checks if a type is a function type.
 *   **Parameters:**
-    *   Type: The type atom to check.
+    *   Type: The type atom to be checked.
 *   **Return:** `True` if the type is a function type, `False` otherwise.
 *   **Example:**
 
@@ -617,10 +651,17 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Attempts to cast an atom to a specific type within an atomspace context.
 *   **Parameters:**
-    *   Atom: The atom to cast.
+    *   Atom: The atom to be casted.
     *   Type: The target type.
-    *   Space: The atomspace to use as context.
-*   **Return:** The atom if casting is successful, or an `Error` atom if not.
+    *   Space: The atomspace to be used as context.
+*   **Return:** The atom if the casting is successful, or an `Error` atom if not.
+*   **Example:**
+
+    ```metta
+    (: type1 Type)
+    !(type-cast A type1 &self) ; A
+    !(type-cast 1 type1 &self) ; Error 1 BasType
+    ```
 
 ### `match-types`
 
@@ -635,7 +676,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
     ```metta
     !(match-types Atom Atom "Matched!" "Didn't match") ; Returns "Matched!"
-    !(match-types Atom Number "Matched!" "Didn't match") ; Returns "Didn't match"
+    !(match-types Bool Number "Matched!" "Didn't match") ; Returns "Didn't match"
     ```
 
 ### `first-from-pair`
@@ -658,6 +699,15 @@ This document details the built-in functions and atoms available in the MeTTa st
     *   Next: First type.
     *   Type: Second type.
 *   **Return:** True or False
+*   **Example:**
+
+    ```metta
+    !(match-type-or True Number Number) ; Returns True
+    !(match-type-or False Number Number) ; Returns True
+    !(match-type-or True Number Bool) ; Returns True
+    !(match-type-or False Number Bool) ; Returns False
+    
+    ```
 
 ---
 
@@ -695,7 +745,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Folds (reduces) a list of values into a single value, using a binary operation.  This is a left fold.
 *   **Parameters:**
-    *   List: The list of values to fold.
+    *   List: The list of values to be folded.
     *   Init: The initial value.
     *   A: The variable to hold the accumulated value.
     *   B: The variable to hold the current element of the list.
@@ -791,7 +841,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(add-reduct &self (Foo Bar))
+    !(add-reduct &self (= (add) (+ 1 3))); This will add (= (add) 4) to the working space, &self
     ```
 
 ### `add-atom`
@@ -799,8 +849,13 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Description:** Adds an atom into the atomspace without reducing it.
 *   **Parameters:**
     *   Space: Atomspace to add atom into
-    *   Atom: Atom to add
+    *   Atom: Atom to be added
 *   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(add-atom &self (= (add) (+ 1 3))); This will add (= (add) (+ 1 3)) to the working space, &self
+    ```
 
 ### `get-type`
 
@@ -808,6 +863,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Atom: Atom to get type for
 *   **Return:** Type notation or %Undefined% if there is no type for input Atom
+*   **Example:**
+
+    ```metta
+    !(get-type 1); Returns Number
+    ```
 
 ### `get-type-space`
 
@@ -816,6 +876,12 @@ This document details the built-in functions and atoms available in the MeTTa st
     *   Space: Atomspace where type notation for input atom will be searched
     *   Atom: Atom to get type for
 *   **Return:** Type notation or %Undefined% if there is no type for input Atom in provided atomspace
+*   **Example:**
+
+    ```metta
+    (: a A)
+    !(get-type-space &self a); Returns A because we defined the type of a to be A in the working space, &self
+    ```
 
 ### `get-metatype`
 
@@ -823,6 +889,12 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Atom: Atom to get metatype for
 *   **Return:** Metatype of input atom
+*   **Example:**
+
+    ```metta
+    !(get-metatype True); Returns Grounded
+    ! (get-metatype (a b)); Return Expression
+    ```
 
 ### `if-equal`
 
@@ -833,12 +905,23 @@ This document details the built-in functions and atoms available in the MeTTa st
     *   Then: Atom to be evaluated if arguments are equal
     *   Else: Atom to be evaluated if arguments are not equal
 *   **Return:** Evaluated third or fourth argument
+*   **Example:**
+
+    ```metta
+    !(if-equal 1 1 "Equal" "Not Equal"); Returns "Equal"
+    !(if-equal 1 2 "Equal" "Not Equal"); Returns "Not Equal"
+    ```
 
 ### `new-space`
 
 *   **Description:** Creates new Atomspace which could be used further in the program as a separate from &self Atomspace
 *   **Parameters:** None
 *   **Return:** Reference to a new space
+*   **Example:**
+
+    ```metta
+    !(new-space); Returns reference to the new space
+    ```
 
 ### `remove-atom`
 
@@ -847,6 +930,11 @@ This document details the built-in functions and atoms available in the MeTTa st
     *   Space: Reference to the space from which the Atom needs to be removed
     *   Atom: Atom to be removed
 *   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(remove-atom &self (= (add) 4)); Removes (= (add) 4) from the working space, &self
+    ```
 
 ### `get-atoms`
 
@@ -854,6 +942,11 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Parameters:**
     *   Space: Reference to the space
 *   **Return:** List of all atoms in the input space
+*   **Example:**
+
+    ```metta
+    !(get-atoms &self); Returns all atoms inside &self
+    ```
 
 ### `match`
 
@@ -863,6 +956,13 @@ This document details the built-in functions and atoms available in the MeTTa st
     *   Pattern: Pattern atom to be searched
     *   Output: Output template typically containing variables from the input pattern
 *   **Return:** If match was successfull it outputs template with filled variables using matched pattern. Empty - otherwise
+*   **Example:**
+
+    ```metta
+    (= (add) (+ 1 2))
+    (= (add) (+ 4 2))
+    !(match &self (= (add) (+ $x $y)) $x); Returns 1, 4
+    ```
 
 ---
 
@@ -872,24 +972,24 @@ This document details the built-in functions and atoms available in the MeTTa st
 
 *   **Description:** Prevents an atom from being reduced.
 *   **Parameters:**
-    *   Atom: The atom to quote.
+    *   Atom: The atom to be quoted.
 *   **Return:** The quoted atom (which will not be evaluated).
 *   **Example:**
 
     ```metta
-    !(eval (quote (+ 1 2))) ; Returns (+ 1 2) instead of 3
+    !(quote (+ 1 2)) ; Returns (quote (+ 1 2)) instead of 3
     ```
 
 ### `unquote`
 
 *   **Description:** Removes the quote from a quoted atom.
 *   **Parameters:**
-    *   QuotedAtom: The atom to unquote.
+    *   QuotedAtom: The atom to be unquoted.
 *   **Return:** The original, unquoted atom.
 *   **Example:**
 
     ```metta
-    !(unquote (quote (+ 1 2))) ; Returns (+ 1 2)
+    !(unquote (quote (+ 1 2))) ; Returns 3
     ```
 
 ### `noreduce-eq`
