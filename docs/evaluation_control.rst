@@ -7,7 +7,7 @@ Evaluation Control
 **Description:** Returns a value from a ``function`` expression.
 
 **Parameters:**
-    - Value: The value to return.
+    - Value: The value to be returned.
 
 **Return:** The input value.
 
@@ -31,7 +31,7 @@ Evaluation Control
 
 .. code-block:: metta
 
-    !(function (+ 1 2)) ; Returns 3 because (+ 1 2) evaluates to 3 which becomes (return 3)
+    !(function (return (+ 1 2))) ; Returns 3 because (+ 1 2) evaluates to 3 which becomes (return 3)
 
 ``eval``
 --------
@@ -39,7 +39,7 @@ Evaluation Control
 **Description:** Evaluates an atom, performing one step of reduction. This can be via equality rules or grounded functions.
 
 **Parameters:**
-    - Atom: The atom to evaluate.
+    - Atom: The atom to be evaluated.
 
 **Return:** The result of the evaluation.
 
@@ -62,13 +62,21 @@ Evaluation Control
 
 **Return:** The result of the evaluation.
 
+**Example:**
+
+.. code-block:: metta
+
+    (= (double $x) (+ $x $x))
+    !(evalc (double 5) &self) ; Returns (+ 5 5) self being the working space
+    !(evalc (+ 5 5) &self) ; Returns 10
+
 ``chain``
 ---------
 
 **Description:** Evaluates an atom, binds the result to a variable, and then evaluates another atom containing the variable.
 
 **Parameters:**
-    - Atom: The atom to evaluate initially.
+    - Atom: The atom to be evaluated initially.
     - Variable: The variable to bind the result to.
     - Template: The atom to evaluate after binding.
 

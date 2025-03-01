@@ -7,7 +7,7 @@ Quoting
 **Description:** Prevents an atom from being reduced.
 
 **Parameters:**
-    - Atom: The atom to quote.
+    - Atom: The atom to be quoted.
 
 **Return:** The quoted atom (which will not be evaluated).
 
@@ -15,7 +15,7 @@ Quoting
 
 .. code-block:: metta
 
-    !(eval (quote (+ 1 2))) ; Returns (+ 1 2) instead of 3
+    !(quote (+ 1 2)) ; Returns (+ 1 2) instead of 3
 
 ``unquote``
 ---------
@@ -31,7 +31,7 @@ Quoting
 
 .. code-block:: metta
 
-    !(unquote (quote (+ 1 2))) ; Returns (+ 1 2)
+    !(unquote (quote (+ 1 2))) ; Returns 3
 
 ``noreduce-eq``
 -------------

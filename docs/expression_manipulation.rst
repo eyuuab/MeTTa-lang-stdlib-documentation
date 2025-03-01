@@ -7,8 +7,8 @@ Expression Manipulation
 **Description:** Constructs an expression (list) by adding an atom to the head of another expression.
 
 **Parameters:**
-    - Head: The atom to add to the beginning.
-    - Tail: The expression to add the atom to.
+    - Head: The atom to be added to the beginning.
+    - Tail: The expression to add the atom on.
 
 **Return:** A new expression.
 
@@ -24,7 +24,7 @@ Expression Manipulation
 **Description:** Deconstructs an expression into its head and tail.
 
 **Parameters:**
-    - Expression: The expression to deconstruct.
+    - Expression: The expression to be deconstructed.
 
 **Return:** An expression containing the head and tail: ``(Head Tail)``.
 
@@ -72,7 +72,7 @@ Expression Manipulation
 **Description:** Returns size of an expression.
 
 **Parameters:**
-    - Expression: The expression to get size.
+    - Expression: The expression whose size is to be determined..
 
 **Return:** Size of an expression.
 
@@ -89,9 +89,9 @@ Expression Manipulation
 
 **Parameters:**
     - Expression: The expression to extract from.
-    - Index: The index of the atom.
+    - Index: The index of the target atom.
 
-**Return:** Atom from an expression in the place defined by index. Error if index is out of bounds
+**Return:** Atom from an expression in the position defined by index. Error if index is out of bounds
 
 **Example:**
 

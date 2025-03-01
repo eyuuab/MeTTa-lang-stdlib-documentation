@@ -8,7 +8,7 @@ Atomspace Interaction
 
 **Parameters:**
     - Space: The atomspace to add the atom to.
-    - Atom: The atom to add.
+    - Atom: The atom to be added.
 
 **Return:** Unit atom
 
@@ -16,7 +16,7 @@ Atomspace Interaction
 
 .. code-block:: metta
 
-    !(add-reduct &self (Foo Bar))
+    !(add-reduct &self (= (add) (+ 1 3))); This will add (= (add) 4) to the working space, &self
 
 ``add-atom``
 ----------
@@ -25,9 +25,15 @@ Atomspace Interaction
 
 **Parameters:**
     - Space: Atomspace to add atom into
-    - Atom: Atom to add
+    - Atom: Atom to be added
 
 **Return:** Unit atom
+
+**Example:**
+
+.. code-block:: metta
+
+    !(add-atom &self (= (add) (+ 1 3))); This will add (= (add) (+ 1 3)) to the working space, &self
 
 ``get-type``
 ------------
@@ -38,6 +44,12 @@ Atomspace Interaction
     - Atom: Atom to get type for
 
 **Return:** Type notation or %Undefined% if there is no type for input Atom
+
+**Example:**
+
+.. code-block:: metta
+
+    !(get-type 1) ; Returns Number
 
 ``get-type-space``
 ----------------
@@ -50,6 +62,13 @@ Atomspace Interaction
 
 **Return:** Type notation or %Undefined% if there is no type for input Atom in provided atomspace
 
+**Example:**
+
+.. code-block:: metta
+
+    (: a A)
+    !(get-type-space &self a); Returns A because we defined the type of a to be A in the working space, &self
+
 ``get-metatype``
 ----------------
 
@@ -59,6 +78,13 @@ Atomspace Interaction
     - Atom: Atom to get metatype for
 
 **Return:** Metatype of input atom
+
+**Example:**
+
+.. code-block:: metta
+
+    !(get-metatype True); Returns Grounded
+    !(get-metatype (a b)); Return Expression
 
 ``if-equal``
 ------------
@@ -73,6 +99,13 @@ Atomspace Interaction
 
 **Return:** Evaluated third or fourth argument
 
+**Example:**
+
+.. code-block:: metta
+
+    !(if-equal 1 1 "Equal" "Not Equal"); Returns "Equal"
+    !(if-equal 1 2 "Equal" "Not Equal"); Returns "Not Equal"
+
 ``new-space``
 -------------
 
@@ -82,6 +115,12 @@ Atomspace Interaction
     - None
 
 **Return:** Reference to a new space
+
+**Example:**
+
+.. code-block:: metta
+
+    !(new-space); Returns reference to the new space
 
 ``remove-atom``
 -------------
@@ -94,6 +133,12 @@ Atomspace Interaction
 
 **Return:** Unit atom
 
+**Example:**
+
+.. code-block:: metta
+
+    !(remove-atom &self (= (add) 4)); Removes (= (add) 4) from the working space, &self
+
 ``get-atoms``
 -----------
 
@@ -103,6 +148,12 @@ Atomspace Interaction
     - Space: Reference to the space
 
 **Return:** List of all atoms in the input space
+
+**Example:**
+
+.. code-block:: metta
+
+    !(get-atoms &self); Returns all atoms inside &self
 
 ``match``
 -------
@@ -115,3 +166,11 @@ Atomspace Interaction
     - Output: Output template typically containing variables from the input pattern
 
 **Return:** If match was successfull it outputs template with filled variables using matched pattern. Empty - otherwise
+
+**Example:**
+
+.. code-block:: metta
+
+    (= (add) (+ 1 2))
+    (= (add) (+ 4 2))
+    !(match &self (= (add) (+ $x $y)) $x); Returns 1, 4

@@ -16,7 +16,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(pow-math 2 3) ; Returns 8
+    !(pow-math 2 3) ; Returns 8.0
 
 ``sqrt-math``
 -----------
@@ -32,7 +32,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(sqrt-math 9) ; Returns 3
+    !(sqrt-math 9) ; Returns 3.0
 
 ``abs-math``
 ----------
@@ -65,7 +65,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(log-math 10 100) ; Returns 2
+    !(log-math 10 100) ; Returns 2.0
 
 ``trunc-math``
 ------------
@@ -81,7 +81,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(trunc-math 5.6) ; Returns 5
+    !(trunc-math 5.6) ; Returns 5.0
 
 ``ceil-math``
 -----------
@@ -97,7 +97,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(ceil-math 5.2) ; Returns 6
+    !(ceil-math 5.2) ; Returns 6.0
 
 ``floor-math``
 ------------
@@ -113,7 +113,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(floor-math 5.8) ; Returns 5
+    !(floor-math 5.8) ; Returns 5.0
 
 ``round-math``
 ------------
@@ -129,8 +129,8 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(round-math 5.4) ; Returns 5
-    !(round-math 5.6) ; Returns 6
+    !(round-math 5.4) ; Returns 5.0
+    !(round-math 5.6) ; Returns 6.0
 
 ``sin-math``
 ----------
@@ -270,6 +270,12 @@ Mathematical Operations
 
 **Return:** Min value in the expression. Error if expression contains non-numeric value or is empty
 
+**Example:**
+
+.. code-block:: metta
+
+    !(min-atom (2 6 7 4 9 3)) ; Returns 2.0
+
 ``max-atom``
 ----------
 
@@ -279,6 +285,12 @@ Mathematical Operations
     - Expression: Expression which contains atoms of Number type
 
 **Return:** Max value in the expression. Error if expression contains non-numeric value or is empty
+
+**Example:**
+
+.. code-block:: metta
+
+    !(max-atom (2 6 7 4 9 3)) ; Returns 9.0
 
 ``random-int``
 ------------
@@ -291,6 +303,12 @@ Mathematical Operations
 
 **Return:** Random int number from defined range
 
+**Example:**
+
+.. code-block:: metta
+
+    !(random-int 2 9) ; Returns any int number between 2 to 9
+
 ``random-float``
 --------------
 
@@ -301,3 +319,9 @@ Mathematical Operations
     - Range end: Range end
 
 **Return:** Random float number from defined range
+
+**Example:**
+
+.. code-block:: metta
+
+    !(random-float 2 9) ; Returns any number in the interval [2, 9)
