@@ -303,3 +303,21 @@ Documentation formatting functions
 
     ; Then it returns: [()]
 
+``help-param!``
+-------------------
+
+**Description:** Function used by function help! to output parameters using println!.
+
+**Parameters:**
+    - Atom: Parameters list.
+
+**Return:** Unit atom.
+
+**Example:**
+
+.. code-block:: metta
+
+    !(help-param! ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument"))))
+    ; Prints: (type Bool) First argument 
+    ; (type Bool) Second argument
+    ; Then it returns: [()]
