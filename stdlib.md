@@ -1334,5 +1334,3 @@ This document details the built-in functions and atoms available in the MeTTa st
     ```metta
     !(help-param! ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument"))))
     ```
-
-### `@doc
