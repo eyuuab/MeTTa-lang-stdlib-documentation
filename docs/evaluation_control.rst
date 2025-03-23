@@ -107,6 +107,6 @@ Evaluation Control
     (= (print-each $x) (println! $x))
     !(for-each-in-atom (1 3 5 62 2 5) print-each)
     ; Prints: 1 3 5 62 2 5 in separate lines
-    ; Then it returns: [()]
+    ; Then it returns: ()
 
 

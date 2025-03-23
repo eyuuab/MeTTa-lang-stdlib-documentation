@@ -301,7 +301,7 @@ Documentation formatting functions
     ; Return: (type Bool) True if any of input arguments is True, False - otherwise
 
 
-    ; Then it returns: [()]
+    ; Then it returns: ()
 
 ``help-param!``
 -------------------
@@ -320,4 +320,4 @@ Documentation formatting functions
     !(help-param! ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument"))))
     ; Prints: (type Bool) First argument 
     ; (type Bool) Second argument
-    ; Then it returns: [()]
+    ; Then it returns: ()
