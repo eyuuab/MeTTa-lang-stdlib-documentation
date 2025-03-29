@@ -87,3 +87,26 @@ Evaluation Control
 .. code-block:: metta
 
     !(chain (+ 2 3) $x (* $x 2)) ; Evaluates (+ 2 3) to 5, binds it to $x, then evaluates (* $x 2), returning 10.
+
+
+``for-each-in-atom``
+--------------------
+
+**Description:** Applies a function passed as a second argument to each element of an atom passed as a first argument.
+
+**Parameters:**
+    - Expression: The atom to apply the function to.
+    - Atom: The function to apply to each element of the atom.
+
+**Return:** The result of applying the function to each element of the atom.
+
+**Example:**
+
+.. code-block:: metta
+
+    (= (print-each $x) (println! $x))
+    !(for-each-in-atom (1 3 5 62 2 5) print-each)
+    ; Prints: 1 3 5 62 2 5 in separate lines
+    ; Then it returns: ()
+
+

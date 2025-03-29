@@ -17,6 +17,8 @@ This document details the built-in functions and atoms available in the MeTTa st
 11. [Quoting](#quoting)
 12. [Set Operations](#set-operations)
 13. [Documentation](#documentation)
+14. [Module Management](#modules-management)
+15. [Console Output](#console-output)
 
 ---
 
@@ -45,6 +47,100 @@ This document details the built-in functions and atoms available in the MeTTa st
 
     ```metta
     !(id 5) ; Returns 5
+    ```
+
+### `=alpha`
+
+*   **Description:** Checks the alpha equivalency of the two given atoms.
+*   **Parameters:**
+    *   ExpressionAtom: First expression.
+    *   ExpressionAtom: Second expression.
+*   **Return:** True if the expressions are alpha-equivalence False otherwise wise.
+*   **Example:**
+
+    ```metta
+    !(=alpha (Father $Jhon) (Father $Bob)) ; Returns True because they differ only by variable.
+    !(=alpha (Father $Jhon) (Son $Jhon)) ; Returns False because they differ structurally.
+    ```
+
+### `assertEqual`
+
+*   **Description:** Compares (sets of) results of evaluation of two expressions.
+*   **Parameters:**
+    *   ExpressionAtom: First expression.
+    *   ExpressionAtom: Second expression.
+*   **Return:** Unit atom if both expressions after evaluation are equal, error - otherwise.
+*   **Example:**
+
+    ```metta
+    !(assertEqual (+ 1 2) (- 6 3)) ; Returns ().
+    !(assertEqual (+ 1 2) (+ 2 2)) 
+    ;(Error (assertEqual (+ 1 2) (+ 2 2))
+    ;Expected: [4]
+    ;Got: [3]
+    ;Missed results: 4
+    ;Excessive results: 3)
+    ```
+
+### `assertAlphaEqual`
+
+*   **Description:** Asserts the alpha-equivalency of the two given expressions.
+*   **Parameters:**
+    *   ExpressionAtom: First expression.
+    *   ExpressionAtom: Second expression.
+*   **Return:** Unit atom if both expressions after evaluation are alpha equal, error - otherwise.
+*   **Example:**
+
+    ```metta
+    !(assertAlphaEqual (+ $x $y) (+ $a $b)) ; Returns ().
+    !(assertAlphaEqual (+ $x $y) (- $x $y)) 
+    ; Returns:
+    ;(Error (assertAlphaEqual (+ $x $y) (- $x $y))
+    ;Expected: [(- $x $y)]
+    ;Got: [(+ $x $y)]
+    ;Missed results: (- $x $y)
+    ;Excessive results: (+ $x $y))
+    ```
+
+### `assertEqualToResult`
+
+*   **Description:** Same as assertEqual but it doesn't reduce the second argument. Second argument is considered to be a set of values of the first argument's evaluation.
+*   **Parameters:**
+    *   ExpressionAtom: First expression.
+    *   ExpressionAtom: Second expression.
+*   **Return:** Unit atom if both expressions after evaluation of the first argument are equal, error - otherwise.
+*   **Example:**
+
+    ```metta
+    !(assertEqualToResult (+ 1 2) 3) ; Returns ().
+    !(assertEqualToResult (+ 1 2) (+ 1 2)) 
+    ;Returns:
+    ;(Error (assertEqualToResult (+ 1 2) (+ 1 2))
+    ;Expected: [+, 1, 2]
+    ;Got: [3]
+    ;Missed results: +, 1, 2
+    ;Excessive results: 3)
+    ```
+
+### `assertAlphaEqualToResult`
+
+*   **Description:** Same as assertEqualToResult but for assertAlphaEqual. Checks the alpha-equivalency without reducing the second parameter.
+*   **Parameters:**
+    *   ExpressionAtom: First expression.
+    *   ExpressionAtom: Second expression.
+*   **Return:** Unit atom if both expressions after evaluation of the first argument are equal, error - otherwise.
+*   **Example:**
+
+    ```metta
+    (= (add) $x)
+    !(assertAlphaEqualToResult (add) ($y)) ; Returns ().
+    !(assertAlphaEqualToResult (add) (add)) 
+    ;Returns:
+    ;(Error (assertAlphaEqualToResult (add) (add))
+    ;Expected: [add]
+    ;Got: [$X#66]
+    ;Missed results: add
+    ;Excessive results: $X#66)
     ```
 
 ---
@@ -250,6 +346,21 @@ This document details the built-in functions and atoms available in the MeTTa st
     ```metta
     !(if True 5 10) ; Returns 5
     !(if False 5 10) ; Returns 10
+    ```
+
+### `for-each-in-atom`
+
+*   **Description:** Applies a function passed as a second argument to each element of an atom passed as a first argument.
+*   **Parameters:**
+    *   Expression: The atom to apply the function to.
+    *   Atom: The function to apply to each element of the atom.
+*   **Return:** The result of applying the function to each element of the atom.
+*   **Example:**
+
+    ```metta
+    (= (print-each $x) (println! $x))
+    !(for-each-in-atom (1 3 5 62 2 5) print-each) ; Prints: 1 3 5 62 2 5 in separate lines
+    ; Then it returns: ()
     ```
 
 ---
@@ -724,7 +835,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(filter-atom (1 2 3 4 5) $x (> $x 3)) ; Returns (4 5)
+    !(filter-atom (1 2 3 4) $v (eval (> $v 2))); Returns (4 5)
     ```
 
 ### `map-atom`
@@ -755,6 +866,19 @@ This document details the built-in functions and atoms available in the MeTTa st
 
     ```metta
     !(foldl-atom (1 2 3 4) 0 $acc $x (+ $acc $x)) ; Returns 10 (1+2+3+4)
+    ```
+
+### `format-args`
+
+*   **Description:** Replace the '{}' in the expression (the first argument) with an atom (the second atom).
+*   **Parameters:**
+    *   ExpressionAtom: Expression with {} to be replaced with the second parameter.
+    *   Atom: Atom to replace {} in the expression.
+*   **Return:** Expression with replaced {} with atoms
+*   **Example:**
+
+    ```metta
+    !(format-args (Probability of {} is {}%) (head 50)) ; Returns (Probability of head is 50%)
     ```
 
 ---
@@ -921,6 +1045,43 @@ This document details the built-in functions and atoms available in the MeTTa st
 
     ```metta
     !(new-space); Returns reference to the new space
+    ```
+
+### `new-state`
+
+*   **Description:** Creates a new state atom wrapping its argument
+*   **Parameters:**
+    *   Atom: The atom to be wrapped
+*   **Return:** (State $value) where $value is an argument to the new-state
+*   **Example:**
+
+    ```metta
+    !(new-state rest) ; Returns (State rest)
+    ```
+
+### `change-state!`
+
+*   **Description:** Changes the input state's wrapped atom to another atom (the second argument)
+*   **Parameters:**
+    *   StateAtom: State to be changed
+    *   Atom: The new value for the state to replace the wrapped atom
+*   **Return:** (State $value) where $value is the new atom
+*   **Example:**
+
+    ```metta
+    !(bind! state (new-state rest)) !(change-state! state active) ; Returns (State active)
+    ```
+
+### `get-state`
+
+*   **Description:** Used to get the wrapped atom in the given state
+*   **Parameters:**
+    *   StateAtom: The state
+*   **Return:** Atom which is wrapped by the given state
+*   **Example:**
+
+    ```metta
+    !(bind! state (new-state rest)) !(get-state state) ; Returns rest
     ```
 
 ### `remove-atom`
@@ -1115,5 +1276,333 @@ This document details the built-in functions and atoms available in the MeTTa st
 ---
 
 ## 13. Documentation <a name="documentation"></a>
+### `@doc`
 
-### `@doc
+*   **Description:** Used for documentation purposes. Functions' documentation starts with @doc key word.
+*   **Parameters:**
+    *   Atom: The name of the function to be documented
+    *   DocDescription: A description of the function which starts with @desc
+    *   DocParameters: Parameters description starting with @params which should contain one or more @param symbols
+    *   DocReturnInformal: Optional field for function's return value starting with @return
+*   **Return:** Function documentation as DocInformal format
+*   **Example:**
+
+    ```metta
+    !(@doc =
+    (@desc "A symbol used to define reduction rules for expressions.")
+    (@params (
+        (@param "Pattern to be matched against expression to be reduced")
+        (@param "Result of reduction or transformation of the first pattern") ))
+    (@return "Not reduced itself unless custom equalities over equalities are added") )
+    ; Returns itself
+    ```
+
+### `@desc`
+
+*   **Description:** Used for documentation purposes. A symbol used to define description of a function being a part of @doc.
+*   **Parameters:**
+    *   String: The description of the function
+*   **Return:** Returns what was passed as a parameter, which is a description of the function in DocDescription format
+*   **Example:**
+
+    ```metta
+    !(@desc "A symbol used to define reduction rules for expressions.") ; Returns itself
+    ```
+
+### `@params`
+
+*   **Description:** Used for documentation purposes. Contains several @param entities with description of each @param as a part of @doc.
+*   **Parameters:**
+    *   Expression: Several (@param ...) entities
+*   **Return:** Returns parameters' description as DocParameters format
+*   **Example:**
+
+    ```metta
+    !(@params ((@param "First argument") (@param "Second argument"))) ; Returns itself
+    ```
+
+### `@param`
+
+*   **Description:** Used for documentation purposes. Description of a function parameter starts with @param as a part of @params which is a part of @doc.
+*   **Parameters:**
+    *   String: The description of the function parameter
+*   **Return:** Returns parameter's description as DocParameterInformal format
+*   **Example:**
+
+    ```metta
+    !(@param "Pattern to be matched against expression to be reduced") ; Returns itself
+    ```
+
+### `@return`
+
+*   **Description:** Used for documentation purposes. Description of what a function returns as a part of @doc.
+*   **Parameters:**
+    *   String: The description of what a function returns
+*   **Return:** Return description of what a function returns in DocReturnInformal format, (@return description)
+*   **Example:**
+
+    ```metta
+    !(@return "Not reduced itself unless custom equalities over equalities are added") ; Returns itself
+    ```
+
+### `@doc-formal`
+
+*   **Description:** Used for documentation purposes, get-doc returns documentation starting with @doc-formal symbol.
+*   **Parameters:**
+    *   DocItem: Function/Atom name for which documentation is to be displayed. Format (@item name)
+    *   DocKind: The kind of entity is to be displayed. Can be either DocKindFunction (@kind function) or DocKindAtom (@kind Atom)
+    *   DocType: The type notation of entity to be displayed
+    *   DocDescription: The description of entity to be displayed
+    *   DocParameters: (Function only) the parameters of the function whose documentation is to be displayed
+    *   DocReturn: (Function only) the return value of the function whose documentation is to be displayed
+*   **Return:** The full documentation of the function in DocFormal format
+*   **Example:**
+
+    ```metta
+    !(@doc-formal (@item if-error) (@kind function) (@type (-> Atom Atom Atom Atom)) (@desc "Checks if first argument is an error atom. Returns second argument if so or third argument otherwise.") (@params ((@param (@type Atom) (@desc "Atom to be checked for the error")) (@param (@type Atom) (@desc "Value to return if first argument is an error")) (@param (@type Atom) (@desc "Value to return otherwise")))) (@return (@type Atom) (@desc "Second or third argument")))) ; Returns itself
+    ```
+
+### `@item`
+
+*   **Description:** Used for documentation purposes. Converts atom/function's name to DocItem.
+*   **Parameters:**
+    *   Atom: The name of the function/atom to be converted to DocItem
+*   **Return:** The DocItem of the function/atom in DocItem format
+*   **Example:**
+
+    ```metta
+    !(@item if-error) ; Returns (@item if-error)
+    ```
+
+### `@kind`
+
+*   **Description:** Used for documentation purposes. Converts atom/function's type to DocKindAtom/DocKindFunction.
+*   **Parameters:**
+    *   Kind: Can be either DocKindFunction or DocKindAtom
+*   **Return:** The kind of entity to be displayed, in DocKindFunction (@kind function) or DocKindAtom (@kind Atom) format
+*   **Example:**
+
+    ```metta
+    !(@kind function) ; Returns (@kind function)
+    ```
+
+### `@type`
+
+*   **Description:** Used for documentation purposes. Converts atom/function's type to DocType.
+*   **Parameters:**
+    *   Type: The type notation of entity to be displayed
+*   **Return:** The type notation of entity to be displayed in DocType format, (@type Type)
+*   **Example:**
+
+    ```metta
+    !(@type (-> Atom Atom Atom Atom)) ; Returns (@type (-> Atom Atom Atom Atom))
+    ```
+
+### `get-doc`
+
+*   **Description:** Returns documentation of a given function/atom.
+*   **Parameters:**
+    *   Atom: The name of the function/atom to get documentation for
+*   **Return:** The documentation of the function/atom in DocFormal format
+*   **Example:**
+
+    ```metta
+    !(get-doc or) ; Returns (@doc-formal (@item or) (@kind function) (@type (-> Bool Bool Bool)) (@desc "Logical disjunction of two arguments") (@params ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument")))) (@return (@type Bool) (@desc "True if any of input arguments is True, False - otherwise")))
+    ```
+
+### `get-doc-single-atom`
+
+*   **Description:** Function used by get-doc to get documentation on either function or atom. It checks if input name is the name of function or atom and calls correspondent function.
+*   **Parameters:**
+    *   Atom: The name of the atom to get documentation for
+*   **Return:** Documentation for the given atom/function in DocFormal format
+*   **Example:**
+
+    ```metta
+    !(get-doc-single-atom or) ; Calls get-doc-function and return (@doc-formal (@item or) (@kind function) (@type (-> Bool Bool Bool)) (@desc "Logical disjunction of two arguments") (@params ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument")))) (@return (@type Bool) (@desc "True if any of input arguments is True, False - otherwise")))
+    ```
+
+### `get-doc-function`
+
+*   **Description:** Function used by get-doc-single-atom to get documentation on a function.
+*   **Parameters:**
+    *   Atom: The name of the function to get documentation for
+    *   Type: The type notation of the function to get documentation for
+*   **Return:** Documentation on the function in DocFormal format if it exists or default documentation with no description otherwise
+*   **Example:**
+
+    ```metta
+    !(get-doc-function or (-> Bool Bool Bool)) ; Returns (@doc-formal (@item or) (@kind function) (@type (-> Bool Bool Bool)) (@desc "Logical disjunction of two arguments") (@params ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument")))) (@return (@type Bool) (@desc "True if any of input arguments is True, False - otherwise")))
+    ```
+
+### `get-doc-atom`
+
+*   **Description:** Function used by get-doc-single-atom to get documentation on an atom.
+*   **Parameters:**
+    *   Atom: The name of the atom to get documentation for
+*   **Return:** Documentation on the atom in DocFormal format
+*   **Example:**
+
+    ```metta
+    !(get-doc-atom true) ; Returns (@doc-formal (@item True) (@kind atom) (@type Bool) (@desc "No documentation")) as there is not description provided for Bool type
+    ```
+
+### `undefined-doc-function-type`
+
+*   **Description:** Function used by get-doc-single-atom in case of undefined type for function.
+*   **Parameters:**
+    *   Expression: List of parameters for the function we want to get documentation for
+*   **Return:** List of %Undefined% number of which depends on input list size. So for two parameters function will return (%Undefined% %Undefined% %Undefined%), the last one is for the return type
+*   **Example:**
+
+    ```metta
+    !(undefined-doc-function-type (Atom Atom Atom)) ; Returns (%Undefined% %Undefined% %Undefined%)
+    ```
+
+### `get-doc-params`
+
+*   **Description:** Function used by get-doc-function to convert the DocInformal format, e.g (@param "Atom to be evaluated") to DocFormal format, e.g (@param (@type Atom) (@desc "Atom to be evaluated")).
+*   **Parameters:**
+    *   Expression: List of parameters in form of ((@param Description) (@param Description)...)
+    *   Atom: Return value's description in form of (@return Description)
+    *   Expression: Type notation without '->' starting symbol e.g. (Atom Atom Atom)
+*   **Return:** United list of params and return value each augmented with its type in DocFormal format
+*   **Example:**
+
+    ```metta
+    !(get-doc-params ((@param "Atom to be evaluated") (@param "Atom to be evaluated"))(@return "Atom to be evaluated") (Atom Atom Atom)) ; Returns united list of params and return value each augmented with its type in DocFormal format
+    ```
+
+### `help!`
+
+*   **Description:** Function prints documentation for the input atom. Without parameters prints the list of the stdlib functions.
+*   **Parameters:**
+    *   Atom: The name of the atom to get documentation for
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(help! or) ; Returns Unit atom
+    ```
+
+### `help-param!`
+
+*   **Description:** Function used by function help! to output parameters using println!.
+*   **Parameters:**
+    *   Atom: Parameters list
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(help-param! ((@param (@type Bool) (@desc "First argument")) (@param (@type Bool) (@desc "Second argument")))) ; Returns Unit atom
+    ```
+---
+
+## 14. Modules Management <a name="modules-management"></a>
+### `register-module!`
+
+*   **Description:** Take a file path to module and load the module in to the runner.
+*   **Parameters:**
+    *   StringAtom: The path to the module to be loaded
+*   **Return:** A unit atom ()
+*   **Example:**
+
+    ```metta
+    !(register-module! /path/to/module) ; Returns ()
+    ```
+
+### `mod-space!`
+
+*   **Description:** Used to get the atomspace where the given module loaded to and tries to load the module if it is not loaded into the module system.
+*   **Parameters:**
+    *   StringAtom: The name of the module.
+*   **Return:** The space where the module is uploaded.
+*   **Example:**
+
+    ```metta
+    !(mod-space! module) ; Returns <spacename>:module
+    ```
+
+### `print-mods!`
+
+*   **Description:** Prints all modules with their correspondent spaces.
+*   **Parameters:**
+    *   None
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(print-mods!) 
+    ; Returns:
+    ;top = 0
+        ;├─stdlib = 2
+        ;├─corelib = 1
+        ;└─catalog = 3
+    ```
+
+### `import!`
+
+*   **Description:** Imports module using its relative path (second argument) and binds it to the token (first argument) which will represent imported atomspace. If first argument is &self then everything will be imported to current atomspace.
+*   **Parameters:**
+    *   SymbolAtom: Symbol, which is turned into the token for accessing the imported module.
+    *   String: Module relative path (use ':')
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(import! helper util:helpers) ; Returns ()
+    ```
+
+### `include`
+
+*   **Description:** Import every thing from the given module. The same as import with &self as a first argument.
+*   **Parameters:**
+    *   String: Name of metta script to import.
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(include util:helper) ; Returns (). The same as !(import! &self util:helper)
+    ```
+
+### `bind!`
+
+*   **Description:** Associate a token with a symbol(the first argument) after reducting an atom(the second argument).
+*   **Parameters:**
+    *   SymbolAtom: A symbol to be used as a token name.
+    *   Atom: An atom whose token is be associated with a symbol.
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(bind! mySpace (new-space)) ; Returns (). We can access the new space using mySpace from now on.
+    ```
+---
+
+## 15. Console Output <a name="console-output"></a>
+### `println!`
+
+*   **Description:** Prints a line of text to the console.
+*   **Parameters:**
+    *   Atom: Any atom to be printed out.
+*   **Return:** Unit atom
+*   **Example:**
+
+    ```metta
+    !(println! "Hello world!") ; Prints Hello world!
+    ; Returns ()
+    ```
+
+### `trace!`
+
+*   **Description:** Prints its first argument and returns second. Both arguments will be evaluated before processing
+*   **Parameters:**
+    *   Atom: Atom to be printed.
+    *   Atom: Atom to be reduced.
+*   **Return:** The result of the second parameter
+*   **Example:**
+
+    ```metta
+    !(trace! "Adding one and two!" (+ 1 2)) ; Prints: Adding one and two! 
+    ; Returns 3
+    ```

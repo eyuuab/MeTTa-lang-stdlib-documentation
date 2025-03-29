@@ -56,3 +56,20 @@ List Manipulation
 .. code-block:: metta
 
     !(foldl-atom (1 2 3 4) 0 $acc $x (+ $acc $x)) ; Returns 10 (1+2+3+4)
+
+``format-args``
+---------------
+
+**Description:** Replace the '{}' in the expression (the first argument) with an atom (the second atom).
+
+**Parameters:**
+    - ExpressionAtom: Expression with {} to be replaced with the second parameter.
+    - Atom: Atom to replace {} in the expression.
+
+**Return:** Expression with replaced {} with atoms
+
+**Example:**
+
+.. code-block:: metta
+
+    !(format-args (Probability of {} is {}%) (head 50)) ; Returns (Probability of head is 50%) 

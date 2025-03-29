@@ -122,6 +122,55 @@ Atomspace Interaction
 
     !(new-space); Returns reference to the new space
 
+``new-state``
+-------------
+
+**Description:** Creates a new state atom wrapping its argument
+
+**Parameters:**
+    - Atom: The atom to be wrapped
+
+**Return:** (State $value) where $value is an argument to the new-state
+
+**Example:**
+
+.. code-block:: metta
+
+    !(new-state rest); Returns (State rest)
+
+``change-state!``
+-------------
+
+**Description:** Changes the input state's wrapped atom to another atom (the second argument)
+
+**Parameters:**
+    - StateAtom: State to be changed
+    - Atom: The new value for the state to replace the wrapped atom
+
+**Return:** (State $value) where $value is the new atom
+
+**Example:**
+
+.. code-block:: metta
+
+    !(bind! state (new-state rest)) !(change-state! state active); Returns (State active)
+
+``get-state``
+-------------
+
+**Description:** Used to get the wrapped atom in the given state
+
+**Parameters:**
+    - StateAtom: The state
+
+**Return:** Atom which is wrapped by the given state
+
+**Example:**
+
+.. code-block:: metta
+
+    !(bind! state (new-state rest)) !(get-state state); Returns rest
+
 ``remove-atom``
 -------------
 
