@@ -307,7 +307,7 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(random-int 2 9) ; Returns any int number between 2 to 9
+    !(random-int &rng 2 9) ; Returns any int number between 2 to 9
 
 ``random-float``
 --------------
@@ -324,4 +324,4 @@ Mathematical Operations
 
 .. code-block:: metta
 
-    !(random-float 2 9) ; Returns any number in the interval [2, 9)
+    !(random-float &rng 2 9) ; Returns any number in the interval [2, 9)
