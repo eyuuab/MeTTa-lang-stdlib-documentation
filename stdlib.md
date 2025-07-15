@@ -835,7 +835,7 @@ This document details the built-in functions and atoms available in the MeTTa st
 *   **Example:**
 
     ```metta
-    !(filter-atom (1 2 3 4) $v (eval (> $v 2))); Returns (4 5)
+    !(filter-atom (1 2 3 4 5) $v (eval (> $v 2))); Returns (3 4 5)
     ```
 
 ### `map-atom`
