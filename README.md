@@ -27,4 +27,9 @@ If you find any errors, omissions, or have suggestions for improvements, please 
 
 ## More Will Be Added
 
-This documentation is currently under development.  Future updates will include more comprehensive coverage, improved examples, enhanced type signatures, search functionality, and version tracking.         
+This documentation is currently under development.  Future updates will include more comprehensive coverage, improved examples, enhanced type signatures, search functionality, and version tracking.    
+
+## Buying me a ☕
+If you find this project helpful, consider buying me a coffee! ☕
+
+**Bitcoin (BTC) Address**: `13DxKF2EcXU5C2LnUweLzAVQtHdC4pd8Fz`
